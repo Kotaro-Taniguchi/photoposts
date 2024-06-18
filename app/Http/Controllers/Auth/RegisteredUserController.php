@@ -34,12 +34,20 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'profile_image' => ['max:3000', 'mimes:jpg,jpeg,png'],
         ]);
+
+        if ($request->profile_image != null) {  // プロフィール画像が送信された場合
+            $profile_image_path = $request->profile_image->store('public/profiles');
+        } else {
+            $profile_image_path = null;
+        }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'profile_image_path' => $profile_image_path,
         ]);
 
         event(new Registered($user));
