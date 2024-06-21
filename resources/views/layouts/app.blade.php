@@ -13,7 +13,7 @@
         {{-- ナビゲーションバー --}}
         @include('commons.navbar')
 
-        <div class="container mx-auto">
+        <div id="container" class="container mx-auto">
             {{-- エラーメッセージ --}}
             @include('commons.error_messages')
 
