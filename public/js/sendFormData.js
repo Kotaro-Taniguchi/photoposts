@@ -34,13 +34,27 @@ window.addEventListener('DOMContentLoaded', e => {
             }
         })
         .then(res => {
-            const error_message = res['errors']['post'][0];
+            const error_messages = [];
+            if (res['errors']['image_file'] !== undefined) {
+                error_messages.push(res['errors']['image_file'][0]);
+            }
+            if (res['errors']['post'] !== undefined) {
+                error_messages.push(res['errors']['post'][0]);
+            }
             const elImageArea = document.querySelector('#imageArea');
             const elContainer = document.querySelector('#container');
-            const elDiv = document.createElement('div');
-            elDiv.classList.add('alert', 'alert-error', 'mb-4');
-            elDiv.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>${error_message}`;
-            elContainer.insertBefore(elDiv, elImageArea);
+            const elDivPrev = document.querySelectorAll('.alert.alert-error.mb-4');
+            if (elDivPrev.length > 0) {
+                elDivPrev.forEach((elDivPrevEach) => {
+                   elContainer.removeChild(elDivPrevEach);
+                });
+            }
+            error_messages.forEach((error_message) => {
+                const elDiv = document.createElement('div');
+                elDiv.classList.add('alert', 'alert-error', 'mb-4');
+                elDiv.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>${error_message}`;
+                elContainer.insertBefore(elDiv, elImageArea);
+            });
         })
         .catch(error => {
             console.log(error);
