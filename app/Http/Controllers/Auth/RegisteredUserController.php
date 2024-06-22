@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Support\Str;
 
 class RegisteredUserController extends Controller
 {
@@ -38,7 +39,11 @@ class RegisteredUserController extends Controller
         ]);
 
         if ($request->profile_image != null) {  // プロフィール画像が送信された場合
-            $profile_image_path = $request->profile_image->store('public/profiles');
+            $file_ext = $request->file('profile_image')->getClientOriginalExtension();
+            $file_name = Str::uuid()->toString();
+            $file_name_with_ext = $file_name . '.' . $file_ext;
+            $profile_image_path = 'public/profiles/' . $file_name_with_ext;
+            \File::put(storage_path() . '/app/public/profiles/' . $file_name_with_ext, $request->file('profile_image'));
         } else {
             $profile_image_path = null;
         }

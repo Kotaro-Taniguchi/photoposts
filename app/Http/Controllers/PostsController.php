@@ -43,7 +43,7 @@ class PostsController extends Controller
             // デコード
             $image_file = base64_decode($image_file);
 
-            // ストレージに保存し、パスを取得
+            // ファイル名を作成し、ストレージに保存。ファイルのパスを作成。
             $file_name = Str::uuid()->toString();
             \File::put(storage_path() . '/app/public/images/' . $file_name . '.jpeg', $image_file);
             $image_path = 'public/images/' . $file_name . '.jpeg';
