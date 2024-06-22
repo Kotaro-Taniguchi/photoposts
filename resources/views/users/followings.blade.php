@@ -9,8 +9,8 @@
         <div class="sm:col-span-2 mt-4">
             {{-- タブ --}}
             @include('users.navtabs')
-            {{-- 投稿一覧 --}}
-            @include('posts.posts')
+            {{-- ユーザー一覧 --}}
+            @include('users.users')
         </div>
     </div>
 @endsection

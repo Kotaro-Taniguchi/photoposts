@@ -13,3 +13,4 @@
 @if (Auth::user()->id == $user->id)
     <a class="btn bg-blue-300 hover:bg-blue-400 normal-case w-full" href="{{ route('posts.create') }}">新規ポストの投稿</a>
 @endif
+@include('user_follow.follow_button')
