@@ -34,7 +34,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'profile_image' => ['max:3000', 'mimes:jpg,jpeg,png'],
+            'profile_image' => ['max:1000', 'mimes:jpg,jpeg,png'],
         ]);
 
         if ($request->profile_image != null) {  // プロフィール画像が送信された場合

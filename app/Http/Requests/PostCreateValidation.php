@@ -65,7 +65,7 @@ class PostCreateValidation extends FormRequest
     {
         return [
             'post' => 'required|max:255',
-            'image_file' => 'max:1500'
+            'image_file' => 'max:1000'
         ];
     }
 
