@@ -26,13 +26,27 @@
                             {{-- 投稿内容 --}}
                             <p class="mb-0">{!! nl2br(e($post->post)) !!}</p>
                         </div>
-                        <div>
+                        <div class="flex">
                             @if (Auth::id() == $post->user_id)
                                 {{-- 削除ボタンのフォーム --}}
                                 <form method="POST" action="{{ route('posts.destroy', $post->id) }}">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-error btn-sm normal-case" onclick="return confirm('Delete id = {{ $post->id }} ?')">削除</button>
+                                </form>
+                            @endif
+                            @if (Auth::user()->is_favorite($post->id))
+                                {{-- いいね解除ボタン --}}
+                                <form method="POST" action="{{ route('favorites.unfavorite', $post->id) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-success hover:bg-white hover:text-emerald-500 btn-sm normal-case">いいね！解除</button>
+                                </form>
+                            @else
+                                {{-- いいね！ボタン --}}
+                                <form method="POST" action="{{ route('favorites.favorite', $post->id) }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success btn-outline btn-sm normal-case">いいね！</button>
                                 </form>
                             @endif
                         </div>

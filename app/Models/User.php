@@ -55,7 +55,7 @@ class User extends Authenticatable
      * このユーザーに関係するモデルの件数をロードする。
      */
     public function loadRelationshipCounts() {
-        $this->loadCount(['posts', 'followings', 'followers']);
+        $this->loadCount(['posts', 'followings', 'followers', 'favorites']);
     }
 
     /**
@@ -127,5 +127,47 @@ class User extends Authenticatable
         $userIds[] = $this->id;
 
         return Post::whereIn('user_id', $userIds);
+    }
+
+    /**
+     * このユーザーのお気に入り投稿。
+     */
+    public function favorites() {
+        return $this->belongsToMany(Post::class, 'favorites', 'user_id', 'post_id')->withTimestamps();
+    }
+
+    /**
+     * ポストをお気に入りに登録する。
+     */
+    public function favorite(int $postId) {
+        $exist = $this->is_favorite($postId);
+
+        if (! $exist) {
+            $this->favorites()->attach($postId);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * ポストをお気に入りから外す。
+     */
+    public function unfavorite(int $postId) {
+        $exist = $this->is_favorite($postId);
+
+        if ($exist) {
+            $this->favorites()->detach($postId);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 指定されたIDぼポストをこのユーザーがお気に入りにしているか。
+     */
+    public function is_favorite(int $postId) {
+        return $this->favorites()->where('post_id', $postId)->exists();
     }
 }

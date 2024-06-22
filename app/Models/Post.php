@@ -24,4 +24,11 @@ class Post extends Model
     public function image() {
         return $this->hasOne(Image::class);
     }
+
+    /**
+     * このポストをお気に入りにしたユーザー。
+     */
+    public function favorite_users() {
+        return $this->belongsToMany(User::class, 'favorites', 'post_id', 'user_id')->withTimestamps();
+    }
 }
