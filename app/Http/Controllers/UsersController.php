@@ -18,6 +18,10 @@ class UsersController extends Controller
     public function show(string $id) {
         $user = User::findOrFail($id);
 
-        return view('users.show', ['user' => $user]);
+        $user->loadRelationshipCounts();
+
+        $posts = $user->posts()->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('users.show', ['user' => $user, 'posts' => $posts]);
     }
 }

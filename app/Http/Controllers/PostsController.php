@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Str;
 use App\Http\Requests\PostCreateValidation;
+use Illuminate\Support\Facades\Storage;
 
 class PostsController extends Controller
 {
@@ -51,5 +52,23 @@ class PostsController extends Controller
         }
 
         return back();
+    }
+
+    public function destroy(string $id) {
+        $post = Post::findOrFail($id);
+
+        if (\Auth::id() === $post->user_id) {
+            if ($post->image !== null) {
+                // ストレージ内の画像ファイルを削除
+                $image_file_name = basename($post->image->image_path);
+                Storage::disk('public')->delete('images/' . $image_file_name);
+            }
+            // ポストを削除
+            $post->delete();
+            // リダイレクト
+            return back()->with('success', 'Delete Successful');
+        }
+
+        return back()->with('Delete Failed');
     }
 }

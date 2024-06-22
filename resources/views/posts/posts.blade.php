@@ -26,6 +26,16 @@
                             {{-- 投稿内容 --}}
                             <p class="mb-0">{!! nl2br(e($post->post)) !!}</p>
                         </div>
+                        <div>
+                            @if (Auth::id() == $post->user_id)
+                                {{-- 削除ボタンのフォーム --}}
+                                <form method="POST" action="{{ route('posts.destroy', $post->id) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-error btn-sm normal-case" onclick="return confirm('Delete id = {{ $post->id }} ?')">削除</button>
+                                </form>
+                            @endif
+                        </div>
                     </div>
                 </li>
             @endforeach
