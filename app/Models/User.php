@@ -117,4 +117,15 @@ class User extends Authenticatable
     public function is_following(int $userId) {
         return $this->followings()->where('follow_id', $userId)->exists();
     }
+
+    /**
+     * このユーザーとフォロー中ユーザーの投稿に絞り込む。
+     */
+    public function feed_posts() {
+        $userIds = $this->followings()->pluck('users.id')->toArray();
+
+        $userIds[] = $this->id;
+
+        return Post::whereIn('user_id', $userIds);
+    }
 }
