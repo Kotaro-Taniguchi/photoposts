@@ -5,11 +5,7 @@
                 <li class="flex items-start gap-x-2 mb-4">
                     <div class="avatar">
                         <div class="w-12 rounded">
-                            @if ($post->user->profile_image_path == null)
-                                <img src="{{ asset('default.png') }}" alt="プロフィール画像" />
-                            @else
-                                <img src="{{ Storage::url($post->user->profile_image_path) }}" alt="プロフィール画像" />
-                            @endif
+                            <img src="{{ asset('default.png') }}" alt="プロフィール画像" />
                         </div>
                     </div>
                     <div>

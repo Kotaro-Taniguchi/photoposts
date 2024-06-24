@@ -35,24 +35,23 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'profile_image' => ['max:1000', 'mimes:jpg,jpeg,png'],
         ]);
 
-        if ($request->profile_image != null) {  // プロフィール画像が送信された場合
-            $file_ext = $request->file('profile_image')->getClientOriginalExtension();
-            $file_name = Str::uuid()->toString();
-            $file_name_with_ext = $file_name . '.' . $file_ext;
-            $profile_image_path = 'public/profiles/' . $file_name_with_ext;
-            \File::put(storage_path() . '/app/public/profiles/' . $file_name_with_ext, $request->file('profile_image'));
-        } else {
-            $profile_image_path = null;
-        }
+        // if ($request->profile_image != null) {  // プロフィール画像が送信された場合
+            // $file_ext = $request->file('profile_image')->getClientOriginalExtension();
+            // $file_name = Str::uuid()->toString();
+            // $file_name_with_ext = $file_name . '.' . $file_ext;
+            // $profile_image_path = 'public/images/' . $file_name_with_ext;
+            // \File::put(storage_path() . '/app/public/images/' . $file_name_with_ext, $request->file('profile_image'));
+        // } else {
+            // $profile_image_path = null;
+        // }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'profile_image_path' => $profile_image_path,
+            'profile_image_path' => null,
         ]);
 
         event(new Registered($user));

@@ -38,12 +38,12 @@
                 <input type="password" name="password_confirmation" class="input input-bordered w-full">
             </div>
 
-            <div class="form-control my-4">
+            {{-- <div class="form-control my-4">
                 <label for="profile_image" class="label">
                     <span class="label-text">プロフィール画像</span>
                 </label>
                 <input type="file" name="profile_image" value="" accept="image/png, image/jpeg">
-            </div>
+            </div> --}}
 
             <button type="submit" class="btn bg-blue-300 hover:bg-blue-400 btn-block normal-case">会員登録</button>
         </form>
